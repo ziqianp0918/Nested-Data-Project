@@ -3,6 +3,7 @@
 #https://jsonformatter.curiousconcept.com/
 
 require 'json'
+#setting a variable to 
 sat_data = JSON.parse(%q|
 {
    "meta":{
@@ -7931,12 +7932,12 @@ sat_data = JSON.parse(%q|
 |)
 
 #given the DBN print out the school name and test scores
-
+#Part 2
 # puts "What is the DBN you are looking for?"
 # dbn_num = gets.chomp
 # sat_data["data"].each do |school_scores|
 #  if school_scores[8] == dbn_num
-#     puts school_scores[9]
+#     puts "The school name is {school_scores[9]}"
 #     puts "Number of SAT taken is #{school_scores[10]}."
 #     puts "Average critical reading score is #{school_scores[11]}."
 #     puts "Average math score is #{school_scores[12]}."
@@ -7945,12 +7946,36 @@ sat_data = JSON.parse(%q|
 #  end
 # end
 
+#part 3: 2 methods
+def school_sat_score(sat_data,school_code)
+  sat_data["data"].each do |school_name_info|
+    if school_name_info[8] == school_code
+      return {sat_school_name: school_name_info[9], sat_taken: school_name_info[10], avg_reading: school_name_info[11], avg_math: school_name_info[12], avg_essay: school_name_info[13]}
+    end
+  end
+end
+ #puts school_sat_score(sat_data,"02M288")
 
+def run(sat_data)
+puts "What is the DBN you are looking for to get the SAT scores?"
+dbn_num = gets.chomp
+   school_info_score = school_sat_score(sat_data,dbn_num)
+  puts "The school name is #{school_info_score[:sat_school_name]}"
+ # puts "Number of SAT taken in this school is #{school_info_score[:sat_taken]}"
+  puts "Average critical reading score is #{school_info_score[:avg_reading]}"
+  puts "Average math score is #{school_info_score[:avg_math]}"
+  puts "Average esaay score is #{school_info_score[:avg_essay]}"
+ 
+  puts "Do you want to know how many participants were in that school?"
+ user_ans = gets.chomp
+ user_ans.downcase
+ if user_ans == "yes"
+    puts "Number of SAT taken in this school is #{school_info_score[:sat_taken]}"
+ elsif user_ans == "no" 
+ puts "its ok then."
+ else 
+    puts "I do not understand what you just typed."
+ end
+end
 
-
-
-
-
-
-
-
+run(sat_data)
